@@ -1,0 +1,40 @@
+# Dependências
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+/yarn-debug.log
+/pnpm-debug.log*
+/package-lock.json
+
+# Expo
+.expo/
+.expo-shared/
+
+# Android
+/android/.gradle/
+/android/app/build/
+/android/build/
+/android/local.properties
+/android/.idea/
+/android/*.iml
+
+# iOS
+/ios/Pods/
+/ios/build/
+/ios/*.xcodeproj/
+/ios/*.xcworkspace
+
+# Metro
+/metro-cache/
+/tmp/
+
+# VSCode / IDEs
+.vscode/
+.idea/
+/*.iml
+
+# Outras
+.DS_Store
+.env
+dist/
+coverage/
