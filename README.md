@@ -12,10 +12,6 @@ It allows users to:
 - Delete items  
 - Perform actions related to book checkout and management
 
-**API Link:**
-   ```bash
-   http://193.136.62.24/swagger-ui.html
-
 ## 🛠️ Technologies Used
 - **React Native** – Mobile development framework  
 - **JavaScript (ES6+)**  
@@ -34,7 +30,11 @@ It allows users to:
 -  Update library/book details  
 -  Delete libraries or books  
 -  Checkout functionality for books  
--  Additional improvements and optimizations  
+-  Additional improvements and optimizations
+
+## 🌐 API Reference
+This project consumes a REST API available at:  
+👉 [Library API Swagger Documentation](http://193.136.62.24/swagger-ui.html)
 
 ## 📖 How to Run
 1. Clone the repository:  
