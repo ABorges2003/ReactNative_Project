@@ -10,7 +10,11 @@ It allows users to:
 - Add new libraries or books  
 - Update existing records  
 - Delete items  
-- Perform actions related to book checkout and management  
+- Perform actions related to book checkout and management
+
+**API Link:**
+   ```bash
+   http://193.136.62.24/swagger-ui.html
 
 ## 🛠️ Technologies Used
 - **React Native** – Mobile development framework  
@@ -25,12 +29,12 @@ It allows users to:
 - Gain experience in **mobile UI/UX development**  
 
 ## 📦 Features (Planned/Implemented)
-- ✅ Fetch and display data from the API  
-- ✅ Create new libraries and books  
-- ✅ Update library/book details  
-- ✅ Delete libraries or books  
-- 🔄 Checkout functionality for books  
-- 🔜 Additional improvements and optimizations  
+-  Fetch and display data from the API  
+-  Create new libraries and books  
+-  Update library/book details  
+-  Delete libraries or books  
+-  Checkout functionality for books  
+-  Additional improvements and optimizations  
 
 ## 📖 How to Run
 1. Clone the repository:  
