@@ -48,3 +48,10 @@ This project consumes a REST API available at:
    npx expo start
 4. Run on your mobile device (Expo Go app) or emulator.
 
+## 📘 Code Structure and Use Cases
+👉 [Click here to see more details](./docs/code/code.md)
+
+---
+
+## 📑 Documentation (SD and SSDs)
+👉 [Click here to see more details](./docs/documentation/documentation.md)
