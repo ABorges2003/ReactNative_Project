@@ -39,7 +39,7 @@ This project consumes a REST API available at:
 ## 📖 How to Run
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/yourusername/library-management-app.git
+   git clone https://github.com/ABorges2003/ReactNative_Project.git
 2. Install dependencies:  
    ```bash
    npm install

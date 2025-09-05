@@ -21,5 +21,20 @@
 
 ## UC2 — Create Library
 
+### Simple Sequence Diagram (SSD)
+![SSD2](./SSD/UC2-SSD.png)
+
+### Specification Table
+| **Description**       | Create a library in the LibraryAPI |
+|------------------------|------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API |
+| **Post-condition**     | Input fields are displayed and the user fills them with the information of the library to create |
+| **Main flow**          | 1. The user requests to create a library <br> 2. The system asks the user to insert the required information <br> 3. The system creates the library in the API |
+| **Alternative flow**   | Invalid data provided <br> The system returns an error |
+
+### Sequence Diagram (SD)
+![SD2](./SD/UC2-SD.png)
+
+
 
 

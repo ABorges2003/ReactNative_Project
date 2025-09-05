@@ -19,20 +19,26 @@ const LibraryListScreen = () => {
         setLibraries(libraryResponse.data || []);
       })
       .catch((error) => {
-        console.error("Erro ao buscar bibliotecas: ", error);
+        console.error("Error fetching libraries: ", error);
       });
   };
 
+  // Fetch libraries the first time the screen is loaded
   useEffect(() => {
     fetchLibraries();
   }, []);
 
-  useFocusEffect( 
+  // Fetch libraries again every time the screen gains focus
+  useFocusEffect(
     useCallback(() => {
-      fetchLibraries(); 
+      fetchLibraries();
     }, [])
   );
 
+  /**
+   * Called when the user presses on a library card.
+   * Opens the modal and sets the selected library.
+   */
   const handleLibraryPress = (library) => {
     setSelectedLibrary(library);
     setModalVisible(true);
@@ -40,21 +46,23 @@ const LibraryListScreen = () => {
 
   const modalOptions = [
     {
-      label: 'Get Books',
+      label: "Get Books",
       onPress: () =>
-        navigation.navigate('LibraryBooks')
+        navigation.navigate("LibraryBooks", { libraryId: selectedLibrary.id }),
     },
   ];
 
   const renderLibraryCard = ({ item }) => (
     <TouchableOpacity
-      style={styles.cardContainer}onPress={() => handleLibraryPress(item)}>
+      style={styles.cardContainer}
+      onPress={() => handleLibraryPress(item)}
+    >
       <LibraryCard
         name={item.name}
         address={item.address}
-        openDays={item.openDays || 'N/A'}
-        openTime={item.openTime || 'N/A'}
-        closeTime={item.closeTime || 'N/A'}
+        openDays={item.openDays || "N/A"}
+        openTime={item.openTime || "N/A"}
+        closeTime={item.closeTime || "N/A"}
       />
     </TouchableOpacity>
   );
@@ -67,7 +75,7 @@ const LibraryListScreen = () => {
       <SafeAreaView style={styles.container} edges={["top"]}>
         <TouchableOpacity
           style={styles.createButton}
-          onPress={() => alert("In development")}
+          onPress={() => navigation.navigate("CreateLibrary")}
         >
           <Text style={styles.createButtonText}>Create Library</Text>
         </TouchableOpacity>
