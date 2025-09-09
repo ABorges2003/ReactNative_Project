@@ -41,11 +41,28 @@ At the moment, only **UC1** has been started.
 ### UC1 — List Libraries
 - **Screen:** `LibraryListScreen`  
 - **Components used:** `LibraryCard`, `LibraryModal`  
-- **Service:** `GetLibraries()`  
-- **Flow:**  
-  1. The screen calls `GetLibraries()` to fetch libraries from the API.  
-  2. The result is displayed in a list using `LibraryCard`.  
-  3. When clicking on a library, a modal (`LibraryModal`) opens with options (e.g., "Get Books").  
+- **Service:** `GetLibraries()` → `GET /v1/library`  
+
+**Flow:**  
+1. When the screen loads, it calls `fetchLibraries()`.  
+2. `fetchLibraries()` invokes `GetLibraries()` from the service.  
+3. On success, the response (`libraryResponse.data`) is stored in state via `setLibraries()`.  
+4. The list of libraries is displayed using `FlatList`, each item rendered by `LibraryCard`.  
+5. On tap of a card, `handleLibraryPress()` sets the selected library and opens `LibraryModal`.  
+6. Inside the modal, the user can choose actions (e.g., **Get Books**, **Delete**).  
+
+**Key code points (where to look if changes are needed):**  
+- **Service:** `api.get(ENDPOINTS.GET_LIBRARY)` inside `LibraryService.js`.  
+- **Fetching:** `fetchLibraries()` uses `.then()` to update state and `.catch()` to log errors.  
+- **Focus refresh:** `useFocusEffect()` triggers `fetchLibraries()` whenever the screen regains focus.  
+- **Card rendering:** `renderLibraryCard` passes `name`, `address`, `openDays`, `openTime`, `closeTime` to `LibraryCard`.  
+- **Modal actions:** handled in `modalOptions` array (`Get Books` → navigate, `Delete` → API call).  
+
+**Technical notes:**  
+- Data binding is defensive: if values are missing, defaults `"N/A"` are displayed.  
+- `keyExtractor` ensures each item uses `item.id.toString()` to avoid duplicate key issues.  
+- `SafeAreaView` and background styling ensure proper display across devices.  
+
 
 ### UC2 — Create Library
 - **Screen:** `CreateLibraryScreen`  
@@ -75,9 +92,33 @@ At the moment, only **UC1** has been started.
 - **Initial picker value**: derived from the current state (if already defined) for each field.
 - **Android UX**: no `Modal`; native dialog avoids “phantom touches” and double taps. 
 
+### UC3 — Delete Library
+- **Screen:** `LibraryListScreen`  
+- **Components used:** `LibraryModal`, `Alert`  
+- **Service:** `DeleteLibrary(libraryId)` → `DELETE /v1/library/{id}`  
+
+**Flow:**  
+1. User taps on a **Library** → opens `LibraryModal`.  
+2. Chooses the **Delete** option in the modal.  
+3. The screen calls `DeleteLibrary(selectedLibrary.id)`.  
+4. **UI update (optimistic):** the library is removed from the in-memory list:  
+   `setLibraries(prev => prev.filter(lib => lib.id !== selectedLibrary.id))`.  
+5. The modal closes and an **Alert** shows a success message.  
+
+**Key code points (where to look if changes are needed):**  
+- **Service:** `api.delete(\`${ENDPOINTS.GET_LIBRARY}/${libraryId}\`)`  
+- **Modal action:** `DeleteLibrary(selectedLibrary.id).then(...).catch(...)`  
+- **List update:** uses `filter` to exclude the removed `id`.  
+- **Feedback:** `Alert.alert("Success", "Library successfully deleted")`  
+
+**Technical notes:**  
+- The deletion is handled **optimistically** (UI updates immediately).  
+- In case of error, the console logs the issue and an Alert is shown.  
+- `keyExtractor` already uses `item.id.toString()`, ensuring correct rendering after deletion.  
+
 ---
 
 ## 🚧 Next Steps
-- Implement UC3 (Delete an existent Library).  
+- Implement UC4 (Update an existent Library).  
 
 

@@ -35,6 +35,23 @@
 ### Sequence Diagram (SD)
 ![SD2](./SD/UC2-SD.png)
 
+## UC3 — Delete Library
+
+### Simple Sequence Diagram (SSD)
+![SSD3](./SSD/UC3-SSD.png)
+
+### Specification Table
+| **Description**       | Delete an existing library from the LibraryAPI |
+|------------------------|-----------------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API and the library must exist |
+| **Post-condition**     | The selected library is removed from the API and no longer displayed in the list |
+| **Main flow**          | 1. The user selects a library from the list <br> 2. The user chooses the **Delete** option <br> 3. The system sends a delete request to the API <br> 4. The API confirms the deletion <br> 5. The system updates the list and shows a confirmation message |
+| **Alternative flow**   | If the API request fails, the system shows an error message and the library remains in the list |
+
+### Sequence Diagram (SD)
+![SD3](./SD/UC3-SD.png)
+
+
 
 
 

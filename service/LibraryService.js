@@ -7,6 +7,9 @@ const api=axios.create({
 })
 
 const GetLibraries=()=> api.get(ENDPOINTS.GET_LIBRARY);
-const CreateLibrary = (libraryData) => api.post(ENDPOINTS.GET_LIBRARY, libraryData);
+const CreateLibrary = (libraryData) => 
+    api.post(ENDPOINTS.GET_LIBRARY, libraryData);
+const DeleteLibrary = (libraryId) =>
+  api.delete(`${ENDPOINTS.GET_LIBRARY}/${libraryId}`);
 
-export { GetLibraries, CreateLibrary };
+export { GetLibraries, CreateLibrary, DeleteLibrary };

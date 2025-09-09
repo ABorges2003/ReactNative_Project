@@ -8,7 +8,7 @@ The application connects to an **API provided by a professor** as part of a univ
 It allows users to:
 - View libraries and books  
 - Add new libraries or books  
-- Update existing records  
+- Update existing libraries or books   
 - Delete items  
 - Perform actions related to book checkout and management
 

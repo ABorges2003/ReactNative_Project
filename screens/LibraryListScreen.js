@@ -5,7 +5,8 @@ import { GetLibraries } from '../service/LibraryService';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import {LibraryModal} from '../components/LibraryModal';
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { DeleteLibrary } from '../service/LibraryService';
+import { Alert } from "react-native";
 
 const LibraryListScreen = () => {
   const [libraries, setLibraries] = useState([]);
@@ -49,6 +50,23 @@ const LibraryListScreen = () => {
       label: "Get Books",
       onPress: () =>
         navigation.navigate("LibraryBooks", { libraryId: selectedLibrary.id }),
+    },
+    {
+      label: "Delete",
+      onPress: () => {
+        DeleteLibrary(selectedLibrary.id)
+          .then(() => {
+            //These two lines are used to set the list of updated libraries again
+            setLibraries((prevLibraries) =>
+              prevLibraries.filter((lib) => lib.id !== selectedLibrary.id)
+            );
+            setModalVisible(false);
+            Alert.alert("Sucess","library successfully deleted");
+          })
+          .catch((error) => {
+            console.error("Error deleting library:", error);
+          });
+      },
     },
   ];
 
