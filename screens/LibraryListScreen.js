@@ -60,13 +60,27 @@ const LibraryListScreen = () => {
             setLibraries((prevLibraries) =>
               prevLibraries.filter((lib) => lib.id !== selectedLibrary.id)
             );
-            setModalVisible(false);
+            setModalVisible(false); 
             Alert.alert("Sucess","library successfully deleted");
           })
           .catch((error) => {
             console.error("Error deleting library:", error);
           });
       },
+    },
+    {
+      label: "Update Library",
+      onPress: () =>
+        navigation.navigate("UpdateLibrary" , {
+          library: {
+          id: selectedLibrary.id,
+          name: selectedLibrary.name,
+          address: selectedLibrary.address,
+          openDays: selectedLibrary.openDays,
+          openTime:selectedLibrary.openTime,
+          closeTime:selectedLibrary.closeTime,
+        },
+      }),
     },
   ];
 

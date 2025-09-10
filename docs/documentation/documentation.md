@@ -51,6 +51,22 @@
 ### Sequence Diagram (SD)
 ![SD3](./SD/UC3-SD.png)
 
+## UC4 — Update Library
+
+### Simple Sequence Diagram (SSD)
+![SSD4](./SSD/UC4-SSD.png)
+
+### Specification Table
+| **Description**       | Update an existing library in the LibraryAPI |
+|------------------------|----------------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API and the library must exist |
+| **Post-condition**     | The updated library information is saved in the API and shown in the list |
+| **Main flow**          | 1. The user selects a library from the list <br> 2. The user chooses the **Update** option <br> 3. The system shows the current library details <br> 4. The user edits the details (name, address, open days, open/close time) <br> 5. The user saves changes <br> 6. The system sends an update request to the API <br> 7. The API confirms the update <br> 8. The system navigates back and shows the updated list |
+| **Alternative flow**   | Invalid or incomplete data → The system shows a validation error <br> API request fails → The system shows an error message and keeps the previous data |
+
+### Sequence Diagram (SD)
+![SD4](./SD/UC4-SD.png)
+
 
 
 

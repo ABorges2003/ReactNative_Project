@@ -11,5 +11,7 @@ const CreateLibrary = (libraryData) =>
     api.post(ENDPOINTS.GET_LIBRARY, libraryData);
 const DeleteLibrary = (libraryId) =>
   api.delete(`${ENDPOINTS.GET_LIBRARY}/${libraryId}`);
+const UpdateLibrary = (libraryId, libraryData) =>
+  api.put(`${ENDPOINTS.GET_LIBRARY}/${libraryId}`, libraryData);
 
-export { GetLibraries, CreateLibrary, DeleteLibrary };
+export { GetLibraries, CreateLibrary, DeleteLibrary, UpdateLibrary };

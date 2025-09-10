@@ -116,9 +116,46 @@ At the moment, only **UC1** has been started.
 - In case of error, the console logs the issue and an Alert is shown.  
 - `keyExtractor` already uses `item.id.toString()`, ensuring correct rendering after deletion.  
 
+### UC4 — Update Library
+- **Screen:** `UpdateLibraryScreen`  
+- **Components used:** `TextInput`, day selector, `DateTimePicker` (Android via `DateTimePickerAndroid`, iOS with `Modal` + spinner), `Alert`  
+- **Service:** `UpdateLibrary(libraryId, libraryData)` → `PUT /v1/library/{id}`  
+
+**Flow:**  
+1. User selects a library in `LibraryListScreen` → opens `LibraryModal`.  
+2. Chooses the **Update Library** option → navigates to `UpdateLibraryScreen` with current library details passed as params.  
+3. Screen initially shows details in read-only mode.  
+4. User taps the **Edit** button (pencil icon) → toggles edit mode.  
+5. User edits fields:  
+   - **Name** and **Address** via `TextInput`.  
+   - **Open Days** via `toggleDay()` (exclusive “All” option or multiple days).  
+   - **Open Time** and **Close Time** using time pickers:  
+     - **Android:** native dialog via `DateTimePickerAndroid.open`.  
+     - **iOS:** spinner inside a `Modal`.  
+6. On **Save** → `saveDetails()` validates input (at least one open day) and builds payload.  
+7. Calls `UpdateLibrary()` service with `{ name, address, openDays, openTime, closeTime }`.  
+8. On success → shows success `Alert`, exits edit mode, and navigates back to the library list.  
+9. On error → logs and shows error `Alert`.  
+
+**Key code points (where to look if changes are needed):**  
+- **Navigation:** `navigation.navigate("UpdateLibrary", { library: {...} })` in `LibraryListScreen`.  
+- **Edit toggle:** `toggleEdit()` switches between read-only and editable view.  
+- **Day selection logic:** `toggleDay()` ensures “All” is exclusive.  
+- **Time pickers:**  
+  - `openTimePicker(isOpenTime)` defines initial value and opens native picker (Android) or modal (iOS).  
+  - `handleTimeSelect()` saves time as `"HH:MM"`.  
+- **Validation + payload:** inside `saveDetails()`.  
+- **API call:** `UpdateLibrary()` (`axios.put`) in `LibraryService.js`.  
+
+**Technical notes:**  
+- **Time format:** `"HH:MM"` (24h).  
+- **Initial values:** pre-filled with current library data from navigation params.  
+- **UX consistency:** time picker logic matches UC2 (Create Library).  
+- **Error handling:** alerts the user and logs to console.  
+
 ---
 
 ## 🚧 Next Steps
-- Implement UC4 (Update an existent Library).  
+- Implement UC5 (Get All books from a Library selected).  
 
 
