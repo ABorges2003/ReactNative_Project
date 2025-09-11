@@ -36,7 +36,8 @@ This document describes how the project is organized and how each part of the co
 ## ✅ Use Cases (UC)
 
 This section explains how each use case was implemented.  
-At the moment, only **UC1** has been started.  
+
+---
 
 ### UC1 — List Libraries
 - **Screen:** `LibraryListScreen`  
@@ -63,6 +64,7 @@ At the moment, only **UC1** has been started.
 - `keyExtractor` ensures each item uses `item.id.toString()` to avoid duplicate key issues.  
 - `SafeAreaView` and background styling ensure proper display across devices.  
 
+---
 
 ### UC2 — Create Library
 - **Screen:** `CreateLibraryScreen`  
@@ -92,6 +94,8 @@ At the moment, only **UC1** has been started.
 - **Initial picker value**: derived from the current state (if already defined) for each field.
 - **Android UX**: no `Modal`; native dialog avoids “phantom touches” and double taps. 
 
+---
+
 ### UC3 — Delete Library
 - **Screen:** `LibraryListScreen`  
 - **Components used:** `LibraryModal`, `Alert`  
@@ -115,6 +119,8 @@ At the moment, only **UC1** has been started.
 - The deletion is handled **optimistically** (UI updates immediately).  
 - In case of error, the console logs the issue and an Alert is shown.  
 - `keyExtractor` already uses `item.id.toString()`, ensuring correct rendering after deletion.  
+
+---
 
 ### UC4 — Update Library
 - **Screen:** `UpdateLibraryScreen`  
@@ -155,7 +161,35 @@ At the moment, only **UC1** has been started.
 
 ---
 
+### UC5 — Get Books from Selected Library
+- **Screen:** `LibraryBooksScreen`  
+- **Components used:** `BookCard`, `BookModal`, `FlatList`, `Ionicons` (back button), `Alert` (temporary)  
+- **Service:** `GetBooks(libraryId)` → `GET /v1/library/{id}/book`  
+
+**Flow:**  
+1. From `LibraryListScreen`, the user selects a library and navigates to `LibraryBooksScreen` with `libraryId`.  
+2. On mount and on focus, the screen calls `fetchBooks()` → `GetBooks(libraryId)` and stores `response.data` in `books`.  
+3. Books are displayed with `FlatList`; each item is rendered by `BookCard` (title, ISBN, pages, author, stock, checkedOut, available).  
+4. <span style="color:red">Tapping a book opens `BookModal` with actions (**Update**, **CheckOut**, **CheckIn**) that currently show “feature in development” alerts.</span> *(⚠️ Replace with real navigation once features are implemented)*  
+5. If there are no books, the screen shows “No books found in this library.”  
+6. The header shows a back icon (go back) and an **Add New Book** button that also displays a temporary alert.  
+
+**Key code points (where to look if changes are needed):**  
+- **Fetching:** `fetchBooks()` wraps `GetBooks(libraryId)` and updates `books`; it is called in both `useEffect` and `useFocusEffect`.  
+- **Render:** `renderBookCard` builds `BookCard` and computes `coverUrl` from the API’s `cover.mediumUrl` when available.  
+- **Modal:** `selectedBook` + `modalVisible`; `BookModal` receives `options` with `onPress` handlers (temporary alerts for now).  
+- **Header:** back button (`navigation.goBack()`) on the left, centered/left-aligned title, and **Add New Book** on the right.  
+
+**Technical notes:**  
+- **Availability color:** cards show a semi-transparent **red** background when `available === 0`, otherwise **green** — this provides an immediate visual status of availability.  
+- **Cover URL normalization:** if the API returns a relative path, it’s combined with the base URL and cleaned as needed before passing to `BookCard`.  
+- **List performance:** `keyExtractor={(item) => item.book.isbn}` ensures stable keys.  
+- **Placeholders:** actions in `BookModal` and the **Add New Book** button use `alert(...)` until the corresponding screens/routes are implemented.  
+
+
+---
+
 ## 🚧 Next Steps
-- Implement UC5 (Get All books from a Library selected).  
+- Implement UC6 (Create a book in the selected library).  
 
 

@@ -13,5 +13,7 @@ const DeleteLibrary = (libraryId) =>
   api.delete(`${ENDPOINTS.GET_LIBRARY}/${libraryId}`);
 const UpdateLibrary = (libraryId, libraryData) =>
   api.put(`${ENDPOINTS.GET_LIBRARY}/${libraryId}`, libraryData);
+const GetBooks = (libraryId) =>
+  api.get(`${ENDPOINTS.GET_LIBRARY}/${libraryId}/book`);
 
-export { GetLibraries, CreateLibrary, DeleteLibrary, UpdateLibrary };
+export { GetLibraries, CreateLibrary, DeleteLibrary, UpdateLibrary, GetBooks };

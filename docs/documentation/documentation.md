@@ -35,6 +35,8 @@
 ### Sequence Diagram (SD)
 ![SD2](./SD/UC2-SD.png)
 
+---
+
 ## UC3 — Delete Library
 
 ### Simple Sequence Diagram (SSD)
@@ -50,6 +52,8 @@
 
 ### Sequence Diagram (SD)
 ![SD3](./SD/UC3-SD.png)
+
+---
 
 ## UC4 — Update Library
 
@@ -67,6 +71,23 @@
 ### Sequence Diagram (SD)
 ![SD4](./SD/UC4-SD.png)
 
+---
+
+## UC5 — Get Books from Selected Library
+
+### Simple Sequence Diagram (SSD)
+![SSD5](./SSD/UC5-SSD.png)
+
+### Specification Table
+| **Description**       | Retrieve and display all books from a selected library |
+|------------------------|--------------------------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API and the library must exist |
+| **Post-condition**     | A list of books from the selected library is displayed to the user |
+| **Main flow**          | 1. The user selects a library from the list <br> 2. The system navigates to the **LibraryBooksScreen** with the selected `libraryId` <br> 3. The system calls `GetBooks(libraryId)` from the API <br> 4. The API returns the list of books with their details (title, ISBN, pages, stock, availability, etc.) <br> 5. The system displays the list of books in a **FlatList**, each rendered by `BookCard` <br> 6. The user taps a book to open **BookModal** with available actions (Update, CheckOut, CheckIn) |
+| **Alternative flow**   | If the API request fails → the system shows an error message <br> If no books are available → the system displays “No books found in this library.” |
+
+### Sequence Diagram (SD)
+![SD5](./SD/UC5-SD.png)
 
 
 

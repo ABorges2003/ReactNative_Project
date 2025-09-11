@@ -52,7 +52,7 @@ const LibraryListScreen = () => {
         navigation.navigate("LibraryBooks", { libraryId: selectedLibrary.id }),
     },
     {
-      label: "Delete",
+      label: "Delete Library",
       onPress: () => {
         DeleteLibrary(selectedLibrary.id)
           .then(() => {
