@@ -7,6 +7,9 @@ import LibraryListScreen from './screens/LibraryListScreen';
 import LibraryBooksScreen from './screens/LibraryBooksScreen';
 import CreateLibraryScreen from './screens/CreateLibraryScreen';
 import UpdateLibraryScreen from "./screens/UpdateLibraryScreen";
+import LoadBookScreen from './screens/LoadBookScreen';
+import ScannerScreen from './screens/ScannerScreen';
+import AddBookScreen from './screens/AddBookScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +23,9 @@ const App= () => {
         <Stack.Screen name= "LibraryBooks" component={LibraryBooksScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="CreateLibrary" component={CreateLibraryScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="UpdateLibrary" component={UpdateLibraryScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="LoadBook" component={LoadBookScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Scanner" component={ScannerScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="AddBook" component={AddBookScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -108,7 +108,7 @@ const LibraryBooksScreen = ({ route }) => {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.iconButton}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("LibraryList")}
             accessibilityLabel="Go back"
           >
             <Ionicons name="arrow-back" size={22} color="#fff" />
@@ -120,9 +120,12 @@ const LibraryBooksScreen = ({ route }) => {
 
           <TouchableOpacity
             style={styles.createButton}
-            onPress={() => {
-              alert("Add Book feature is in development.");
-            }}
+            onPress={() =>
+              navigation.navigate("LoadBook", {
+                libraryId,
+                libraryBooks: books.map((book) => book.book.isbn),
+              })
+            }
           >
             <Text style={styles.createButtonText}>Add New Book</Text>
           </TouchableOpacity>

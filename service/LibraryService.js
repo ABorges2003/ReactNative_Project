@@ -15,5 +15,8 @@ const UpdateLibrary = (libraryId, libraryData) =>
   api.put(`${ENDPOINTS.GET_LIBRARY}/${libraryId}`, libraryData);
 const GetBooks = (libraryId) =>
   api.get(`${ENDPOINTS.GET_LIBRARY}/${libraryId}/book`);
+const LoadBook = (isbn) => api.get(`${ENDPOINTS.LOAD_BOOK}/${isbn}`);
+const AddNewBook = (libraryId, isbn, bookData) =>
+  api.post(`${ENDPOINTS.GET_LIBRARY}/${libraryId}/book/${isbn}`, bookData);
 
-export { GetLibraries, CreateLibrary, DeleteLibrary, UpdateLibrary, GetBooks };
+export { GetLibraries, CreateLibrary, DeleteLibrary, UpdateLibrary, GetBooks, LoadBook, AddNewBook };
