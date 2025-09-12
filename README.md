@@ -81,4 +81,3 @@ You can test the following ISBNs directly in the app:
 ### 🔍 Test with Swagger
 If you want to check more ISBNs, you can test them in Swagger:  
 **book-controller → GET `/v1/book/{isbn}` → loadBook**  
-👉 [Library API Swagger Documentation](http://193.136.62.24/swagger-ui.html)
