@@ -48,6 +48,15 @@ This project consumes a REST API available at:
    npx expo start
 4. Run on your mobile device (Expo Go app) or emulator.
 
+---
+
+## 📱 Expo Go Requirement
+To run this project on a physical device, you must use the **Expo Go app** (SDK 52).  
+You can download it here: 👉 [Expo Go Download](https://expo.dev/go)  
+Just select version **52** and choose Android or iOS depending on your device.
+
+---
+
 ## 📘 Code Structure and Use Cases
 👉 [Click here to see more details](./docs/code/code.md)
 
