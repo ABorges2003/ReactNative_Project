@@ -48,6 +48,15 @@ This project consumes a REST API available at:
    npx expo start
 4. Run on your mobile device (Expo Go app) or emulator.
 
+---
+
+## 📱 Expo Go Requirement
+To run this project on a physical device, you must use the **Expo Go app** (SDK 52).  
+You can download it here: 👉 [Expo Go Download](https://expo.dev/go)  
+Just select version **52** and choose Android or iOS depending on your device.
+
+---
+
 ## 📘 Code Structure and Use Cases
 👉 [Click here to see more details](./docs/code/code.md)
 
@@ -55,3 +64,20 @@ This project consumes a REST API available at:
 
 ## 📑 Documentation (SD and SSDs)
 👉 [Click here to see more details](./docs/documentation/documentation.md)
+
+---
+
+## ➕ Extra
+In the **UC of Add Book**, please note that **not all ISBNs will work** with the API.  
+
+### ✅ Example ISBNs that work with the API
+You can test the following ISBNs directly in the app:  
+- Twilight → `9781904233640`  
+- To Kill a Mockingbird → `9780061120084`  
+- Atomic Habits → `9780735211292`  
+- The Art of Readable Code → `9780596802295`  
+- No Longer Human → `9780811204811`  
+
+### 🔍 Test with Swagger
+If you want to check more ISBNs, you can test them in Swagger:  
+**book-controller → GET `/v1/book/{isbn}` → loadBook**  
