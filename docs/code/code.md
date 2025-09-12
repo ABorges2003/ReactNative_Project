@@ -186,10 +186,45 @@ This section explains how each use case was implemented.
 - **List performance:** `keyExtractor={(item) => item.book.isbn}` ensures stable keys.  
 - **Placeholders:** actions in `BookModal` and the **Add New Book** button use `alert(...)` until the corresponding screens/routes are implemented.  
 
+---
+
+### UC6 — Create/Add Book to Library
+- **Screens:** `LoadBookScreen`, `AddBookScreen`  
+- **Components used:** `TextInput`, `ScrollView`, `Image`, `Alert`, `Ionicons` (scanner icon)  
+- **Services:**  
+  - `LoadBook(isbn)` → `GET /v1/book/{isbn}`  
+  - `AddNewBook(libraryId, isbn, { stock })` → `POST /v1/library/{id}/book/{isbn}`  
+
+**Flow:**  
+1. From `LibraryBooksScreen`, the user taps **Add New Book** → navigates to `LoadBookScreen` with `libraryId` and current `libraryBooks`.  
+2. In `LoadBookScreen`, the user:  
+   - Enters an **ISBN** manually or  
+   - Uses the **ScannerScreen** (via camera icon) to capture ISBN-13 codes.  
+3. `LoadBook(isbn)` is called to fetch book metadata from the API (title, author, publish date, pages, cover).  
+4. If the ISBN exists and the book is not already in `libraryBooks`, details are displayed with a preview card.  
+5. User taps **Add Book** → navigates to `AddBookScreen`, passing `{ book, libraryId }`.  
+6. In `AddBookScreen`, the user enters **stock quantity**.  
+7. On confirm:  
+   - `AddNewBook(libraryId, book.isbn, { stock })` is called.  
+   - On success → shows success `Alert` and navigates back to `LibraryBooksScreen`, refreshing the list.  
+   - On failure → shows error `Alert`.  
+
+**Key code points (where to look if changes are needed):**  
+- **Navigation:** `navigation.navigate("LoadBook", { libraryId, libraryBooks })` in `LibraryBooksScreen`.  
+- **Validation:** prevents adding if ISBN doesn’t exist or already belongs to the library.  
+- **Scanner:** `ScannerScreen` validates ISBN-13 checksum and restricts to `978/979` prefixes.  
+- **Review card (AddBookScreen):** confirms library ID, ISBN, title, pages, author, and entered stock before submission.  
+- **API call:** `AddNewBook()` uses `axios.post` with the selected library ID and book ISBN.  
+
+**Technical notes:**  
+- **ISBN Validation:** handled both in scanner (`isValidIsbn13`) and before API calls.  
+- **Visual feedback:** cover image (`book.coverUrl`) is shown when available.  
+- **Stock input:** must be an integer ≥ 0; otherwise, the confirm button is disabled.  
+- **Navigation refresh:** `LibraryBooksScreen` re-fetches books on focus, so the new book appears immediately after addition.  
 
 ---
 
 ## 🚧 Next Steps
-- Implement UC6 (Create a book in the selected library).  
+- Implement UC7 (Update book in the selected library).  
 
 

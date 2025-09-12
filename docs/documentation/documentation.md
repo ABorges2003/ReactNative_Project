@@ -89,6 +89,23 @@
 ### Sequence Diagram (SD)
 ![SD5](./SD/UC5-SD.png)
 
+---
+
+## UC6 — Create/Add Book to Library
+
+### Simple Sequence Diagram (SSD)
+![SSD6](./SSD/UC6-SSD.png)
+
+### Specification Table
+| **Description**       | Add a new book to a selected library in the LibraryAPI |
+|------------------------|--------------------------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API and the library must exist |
+| **Post-condition**     | The selected book is registered in the library with the given stock and displayed in the list |
+| **Main flow**          | 1. The user taps **Add New Book** in the `LibraryBooksScreen` <br> 2. The system navigates to `LoadBookScreen` with the `libraryId` <br> 3. The user enters an ISBN manually or scans it with the camera <br> 4. The system calls `LoadBook(isbn)` to fetch book details from the API <br> 5. If valid, book details (title, author, pages, cover, etc.) are displayed <br> 6. The user taps **Add Book** → navigates to `AddBookScreen` <br> 7. The user inputs a stock value and confirms <br> 8. The system calls `AddNewBook(libraryId, isbn, { stock })` <br> 9. The API registers the book and returns success <br> 10. The system shows a confirmation message and updates the library’s book list |
+| **Alternative flow**   | Invalid ISBN → the system shows an error message <br> ISBN already in library → the system prevents duplication <br> Invalid stock value → the system shows a validation error <br> API request fails → the system shows an error message and the book is not added |
+
+### Sequence Diagram (SD)
+![SD6](./SD/UC6-SD.png)
 
 
 
