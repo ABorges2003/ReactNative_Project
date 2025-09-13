@@ -49,10 +49,16 @@ const LibraryBooksScreen = ({ route }) => {
 
   const modalOptions = [
     {
-      label: "Update Book",
-      onPress: () => {
-        alert("Update Book feature is in development.");
-      },
+      label: "Update Book Stock",
+      onPress: () =>
+        navigation.navigate("UpdateBook", {
+          book: {
+            isbn: selectedBook.book.isbn,
+            title: selectedBook.book.title,
+            stock: selectedBook.stock,
+          },
+          libraryId: libraryId,
+        }),
     },
     {
       label: "CheckOut Book",

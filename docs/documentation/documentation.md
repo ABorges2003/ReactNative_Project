@@ -107,5 +107,22 @@
 ### Sequence Diagram (SD)
 ![SD6](./SD/UC6-SD.png)
 
+---
+
+## UC7 — Update Book (Stock) in Library
+
+### Simple Sequence Diagram (SSD)
+![SSD7](./SSD/UC7-SSD.png)
+
+### Specification Table
+| **Description**       | Update the stock of an existing book in a library |
+|------------------------|---------------------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API, the library must exist, and the book must already belong to that library |
+| **Post-condition**     | The book’s stock is updated in the API and displayed with the new value in the library’s book list |
+| **Main flow**          | 1. The user selects a book in the `LibraryBooksScreen` <br> 2. The system opens `BookModal` with available actions <br> 3. The user taps **Update Book** <br> 4. The system navigates to `UpdateBookScreen` with book details (title, ISBN, current stock, libraryId) <br> 5. The screen initially shows details in read-only mode <br> 6. The user taps the **Edit** icon and modifies the stock value <br> 7. The user taps **Save** <br> 8. The system calls `UpdateBook(libraryId, isbn, { stock })` <br> 9. The API confirms success and updates the book record <br> 10. The system shows a confirmation message and navigates back to `LibraryBooksScreen` where the updated stock is displayed |
+| **Alternative flow**   | Invalid stock value → the system shows a validation error <br> API request fails → the system shows an error message and keeps the previous stock |
+
+### Sequence Diagram (SD)
+![SD7](./SD/UC7-SD.png)
 
 

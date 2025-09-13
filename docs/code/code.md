@@ -224,7 +224,39 @@ This section explains how each use case was implemented.
 
 ---
 
+### UC7 — Update Book (Stock) in Library
+- **Screen:** `UpdateBookScreen`  
+- **Components used:** `TextInput`, `TouchableOpacity`, `Alert`, `Ionicons` (edit icon)  
+- **Service:** `UpdateBook(libraryId, isbn, { stock })` → `PUT /v1/library/{id}/book/{isbn}`  
+
+**Flow:**  
+1. In `LibraryBooksScreen`, the user taps a book to open `BookModal`.  
+2. Selects **Update Book Stock** → navigates to `UpdateBookScreen` with `libraryId`, `isbn`, `title`, and current `stock`.  
+3. The screen initially shows details in read-only mode.  
+4. User taps the **Edit** icon → enables editing for the stock input.  
+5. User updates the stock value and taps **Save**.  
+6. The system calls `UpdateBook(libraryId, isbn, { stock })`.  
+7. On success → shows success `Alert` and navigates back to `LibraryBooksScreen`.  
+8. On failure → logs the error and shows an error `Alert`.
+
+**Key code points (where to look if changes are needed):**  
+- **Navigation:** `navigation.navigate("UpdateBook", { book: { isbn, title, stock }, libraryId })`.  
+- **Edit toggle:** toggled by the pencil icon in the header.  
+- **Save logic:** `saveDetails()` validates stock, parses integer, calls `UpdateBook()`, and handles success/error alerts.  
+- **Service:** `axios.put` in `LibraryService.js` handles the API update.  
+- **List refresh:** `LibraryBooksScreen` re-fetches books on focus, so the updated stock is immediately shown.
+
+**Technical notes:**  
+- **Validation:** stock must be a valid integer ≥ 0.  
+- **UX:** “Cancel” button discards edits and goes back; success alert confirms the change.  
+- **Error handling:** invalid or empty stock → validation error; API failure → error alert and log.
+
+---
+
 ## 🚧 Next Steps
-- Implement UC7 (Update book in the selected library).  
+- Implement UC8 (CheckOut book in the selected library).  
+
+## 🚧 Note
+- In UC8 think to have a database that have Name,CC and book to help better app funcionality
 
 
