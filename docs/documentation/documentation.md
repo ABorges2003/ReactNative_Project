@@ -125,4 +125,23 @@
 ### Sequence Diagram (SD)
 ![SD7](./SD/UC7-SD.png)
 
+---
+
+## UC8 — CheckOut Book in Library
+
+### Simple Sequence Diagram (SSD)
+![SSD8](./SSD/UC8-SSD.png)
+
+### Specification Table
+| **Description**       | Check out a book from a selected library to a user |
+|------------------------|----------------------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API; the library and book must exist and have available copies |
+| **Post-condition**     | A checkout record is created for the given user and the book’s availability is updated |
+| **Main flow**          | 1. The user selects a book in `LibraryBooksScreen` <br> 2. The system opens `BookModal` with actions <br> 3. The user taps **CheckOut Book** <br> 4. The system navigates to `CheckOutScreen` with `libraryId` and `book.isbn` <br> 5. The system asks for **User ID** and the user enters it (prefilled from previous value when available) <br> 6. The user taps **Done** <br> 7. The system calls `POST /v1/library/{id}/book/{isbn}/checkout?userId={userId}` <br> 8. The API confirms success (returns checkout ID and due date) <br> 9. The system shows a confirmation (receipt) and navigates back to `LibraryBooksScreen` where the list refreshes |
+| **Alternative flow**   | Missing/invalid User ID → the system shows a validation error <br> No copies available → the system prevents checkout and shows an error <br> API request fails → the system shows an error message and no changes are made |
+
+### Sequence Diagram (SD)
+![SD8](./SD/UC8-SD.png)
+
+
 

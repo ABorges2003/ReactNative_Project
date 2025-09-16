@@ -20,6 +20,14 @@ const AddNewBook = (libraryId, isbn, bookData) =>
   api.post(`${ENDPOINTS.GET_LIBRARY}/${libraryId}/book/${isbn}`, bookData);
 const UpdateBook = (libraryId, isbn, bookData) =>
   api.put(`${ENDPOINTS.GET_LIBRARY}/${libraryId}/book/${isbn}`, bookData);
+const CheckOutBook = (libraryId, isbn, userId) =>
+  api.post(
+    `${ENDPOINTS.GET_LIBRARY}/${libraryId}/book/${isbn}/checkout`,
+    null,
+    {
+      params: { userId: userId },
+    }
+  );
 
 
 export {
@@ -31,4 +39,5 @@ export {
   LoadBook,
   AddNewBook,
   UpdateBook,
+  CheckOutBook,
 };

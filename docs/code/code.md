@@ -253,10 +253,40 @@ This section explains how each use case was implemented.
 
 ---
 
-## 🚧 Next Steps
-- Implement UC8 (CheckOut book in the selected library).  
+### UC8 — CheckOut Book in Library
+- **Screen:** `CheckOutScreen`  
+- **Components used:** `TextInput`, `Button`, `Alert`, `KeyboardAvoidingView`, `TouchableWithoutFeedback`, `ImageBackground`, `AsyncStorage`  
+- **Service:** `CheckOutBook(libraryId, isbn, userId)` → `POST /v1/library/{id}/book/{isbn}/checkout?userId={userId}`  
 
-## 🚧 Note
-- In UC8 think to have a database that have Name,CC and book to help better app funcionality
+**Flow:**  
+1. In `LibraryBooksScreen`, the user taps a book to open `BookModal`.  
+2. Selects **CheckOut Book** → navigates to `CheckOutScreen` with `libraryId` and `book.isbn`.  
+3. The user enters a **User ID** (if previously used, it is prefilled from `AsyncStorage`).  
+4. The user taps **Done** to confirm the checkout.  
+5. The system calls `CheckOutBook(libraryId, isbn, userId)`.  
+6. On success → the screen shows a receipt-like summary (Checkout ID, ISBN, Due Date) and a **Go Back** button.  
+7. The user goes back to `LibraryBooksScreen`, which refreshes and reflects updated availability.  
+8. On failure → logs the error and shows an error `Alert`.
+
+**Key code points (where to look if changes are needed):**  
+- **Navigation:** `navigation.navigate("CheckOutMenu" | "CheckOutBook", { libraryId, book: { isbn } })` from `BookModal`.  
+- **Prefill User ID:** `useEffect()` reads `AsyncStorage.getItem("userId")`.  
+- **Save action:** `handleCheckout()` validates `userId`, calls `CheckOutBook()`, persists `userId` com `AsyncStorage.setItem()`, e mostra `Alert`.  
+- **Success data mapping:** guarda no estado apenas `id`, `isbn`, `dueDate` para renderizar o recibo.  
+- **List refresh:** retorno com `navigation.goBack()`; `LibraryBooksScreen` faz re-fetch on focus.
+
+**Technical notes:**  
+- **Validation:** `userId` obrigatório antes do call; mostrar mensagem clara em caso de falta.  
+- **UX:** teclado fecha ao tocar fora (`TouchableWithoutFeedback`) e com `KeyboardAvoidingView` no iOS.  
+- **Date formatting:** `new Date(dueDate).toLocaleDateString()` para apresentação amigável.  
+- **Persistence:** `AsyncStorage` mantém o último `userId` para acelerar checkouts futuros.  
+- **Error handling:** `try/catch` ou `.catch()` com `Alert` e `console.error` para diagnóstico.
+
+---
+
+## 🚧 Next Steps
+- Implement UC9 (CheckIn book in the selected library) - try tu use GET "/v1/user/checked-out getCheckedOutBooks" to see the list the user have
+
+
 
 

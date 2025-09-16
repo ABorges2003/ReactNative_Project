@@ -63,7 +63,16 @@ const LibraryBooksScreen = ({ route }) => {
     {
       label: "CheckOut Book",
       onPress: () => {
-        alert("CheckOut feature is in development.");
+        if (selectedBook.available > 0) {
+          navigation.navigate("CheckOutMenu", {
+            book: {
+              isbn: selectedBook.book.isbn,
+            },
+            libraryId: libraryId,
+          });
+        } else {
+          alert("This book is not available for checkout.");
+        }
       },
     },
     {
