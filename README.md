@@ -16,7 +16,8 @@ It allows users to:
 - **React Native** – Mobile development framework  
 - **JavaScript (ES6+)**  
 - **REST API Integration** with Axios/Fetch  
-- **GitHub** for version control  
+- **GitHub** for version control
+- **SQLite** for database user management
 
 ## 🎯 Learning Objectives
 - Understand the basics of **React Native** for mobile apps  
