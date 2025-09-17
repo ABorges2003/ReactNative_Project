@@ -130,18 +130,21 @@
 ## UC8 — CheckOut Book in Library
 
 ### Simple Sequence Diagram (SSD)
-![SSD8](./SSD/UC8-SSD.png)
+![SSD8](./SSD/UC8-SSD.png)  
+<span style="color:red">⚠️ Note: This SSD is still under development and may not fully represent the latest implementation.</span>
 
 ### Specification Table
 | **Description**       | Check out a book from a selected library to a user |
 |------------------------|----------------------------------------------------|
 | **Pre-condition**      | The system must be connected to the internet/API; the library and book must exist and have available copies |
 | **Post-condition**     | A checkout record is created for the given user and the book’s availability is updated |
-| **Main flow**          | 1. The user selects a book in `LibraryBooksScreen` <br> 2. The system opens `BookModal` with actions <br> 3. The user taps **CheckOut Book** <br> 4. The system navigates to `CheckOutScreen` with `libraryId` and `book.isbn` <br> 5. The system asks for **User ID** and the user enters it (prefilled from previous value when available) <br> 6. The user taps **Done** <br> 7. The system calls `POST /v1/library/{id}/book/{isbn}/checkout?userId={userId}` <br> 8. The API confirms success (returns checkout ID and due date) <br> 9. The system shows a confirmation (receipt) and navigates back to `LibraryBooksScreen` where the list refreshes |
-| **Alternative flow**   | Missing/invalid User ID → the system shows a validation error <br> No copies available → the system prevents checkout and shows an error <br> API request fails → the system shows an error message and no changes are made |
+| **Main flow**          | 1. The user selects a book in `LibraryBooksScreen` <br> 2. The system opens `BookModal` with actions <br> 3. The user taps **CheckOut Book** (only enabled if `available > 0`) <br> 4. The system navigates to `CheckOutScreen` with `libraryId` and `book.isbn` <br> 5. The user resolves the checkout identity through one of three modes: <br> &nbsp;&nbsp;• **User ID** → searches by username <br> &nbsp;&nbsp;• **CC Lookup** → searches by citizen card <br> &nbsp;&nbsp;• **Create User** → enters CC, first name, phone, and role; reuses if CC exists or creates a new user if not <br> 6. The user taps **Done** <br> 7. The system calls `POST /v1/library/{id}/book/{isbn}/checkout?userId={userId}` <br> 8. The API confirms success (returns checkout ID and due date) <br> 9. The system stores the last `userId` in `AsyncStorage`, shows a receipt (Checkout ID, ISBN, Due Date), updates the local SQLite dump, and navigates back to `LibraryBooksScreen` <br> 10. On return, the book list refreshes automatically |
+| **Alternative flow**   | Missing/invalid input depending on mode → the system shows a validation error <br> No copies available → the system prevents checkout and shows an error <br> API request fails → the system shows an error message and no changes are made |
 
 ### Sequence Diagram (SD)
-![SD8](./SD/UC8-SD.png)
+![SD8](./SD/UC8-SD.png)  
+<span style="color:red">⚠️ Note: This SD is still under development and may not fully represent the latest implementation.</span>
+
 
 
 

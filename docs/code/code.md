@@ -257,30 +257,43 @@ This section explains how each use case was implemented.
 - **Screen:** `CheckOutScreen`  
 - **Components used:** `TextInput`, `Button`, `Alert`, `KeyboardAvoidingView`, `TouchableWithoutFeedback`, `ImageBackground`, `AsyncStorage`  
 - **Service:** `CheckOutBook(libraryId, isbn, userId)` → `POST /v1/library/{id}/book/{isbn}/checkout?userId={userId}`  
+- **Local store (SQLite):** user creation/lookup (`createUser`, `findUserByCC`, `findUserByUsername`, `dumpUsers`) with auto-generated usernames in the format `User{Role}{FirstName}{n}` (no duplication by CC).  
 
 **Flow:**  
-1. In `LibraryBooksScreen`, the user taps a book to open `BookModal`.  
-2. Selects **CheckOut Book** → navigates to `CheckOutScreen` with `libraryId` and `book.isbn`.  
-3. The user enters a **User ID** (if previously used, it is prefilled from `AsyncStorage`).  
-4. The user taps **Done** to confirm the checkout.  
-5. The system calls `CheckOutBook(libraryId, isbn, userId)`.  
-6. On success → the screen shows a receipt-like summary (Checkout ID, ISBN, Due Date) and a **Go Back** button.  
-7. The user goes back to `LibraryBooksScreen`, which refreshes and reflects updated availability.  
-8. On failure → logs the error and shows an error `Alert`.
+1. In `LibraryBooksScreen`, the user taps a book → `BookModal` → **CheckOut Book**.  
+   - The option is only available if `available > 0`.  
+   - Navigates to `"CheckOutMenu"` with `{ libraryId, book: { isbn } }`.  
+2. In `CheckOutScreen`, the user can resolve the checkout `username` in three different modes:  
+   - **(1) User ID** → validate and look up an existing `username` (`findUserByUsername`).  
+   - **(2) CC lookup** → validate `cc` and search for an existing user (`findUserByCC`).  
+   - **(3) Create user** → requires `cc`, `firstName`, `phone`, and `role`.  
+     - If the **CC already exists**, reuse that user (no duplication).  
+     - Otherwise, create a new one (`createUser`) with a unique username.  
+3. Once the `username` is resolved, the system calls `CheckOutBook(libraryId, isbn, username)`.  
+   - On success, stores `{ id, isbn, dueDate }` in state to display a receipt.  
+   - Persists the last used `userId` in `AsyncStorage` for next time.  
+4. A **user dump** (`dumpUsers()`) runs automatically when the screen opens and after a successful checkout (console output for debugging).  
+5. A success `Alert` is shown with receipt details, and a **Go Back** button returns to `LibraryBooksScreen`.  
+   - On return, the book list refreshes automatically (re-fetch on focus).  
 
 **Key code points (where to look if changes are needed):**  
-- **Navigation:** `navigation.navigate("CheckOutMenu" | "CheckOutBook", { libraryId, book: { isbn } })` from `BookModal`.  
-- **Prefill User ID:** `useEffect()` reads `AsyncStorage.getItem("userId")`.  
-- **Save action:** `handleCheckout()` validates `userId`, calls `CheckOutBook()`, persists `userId` com `AsyncStorage.setItem()`, e mostra `Alert`.  
-- **Success data mapping:** guarda no estado apenas `id`, `isbn`, `dueDate` para renderizar o recibo.  
-- **List refresh:** retorno com `navigation.goBack()`; `LibraryBooksScreen` faz re-fetch on focus.
+- **Navigation:** from `BookModal` option → `navigate("CheckOutMenu", { libraryId, book: { isbn } })`.  
+- **Username resolution:** `resolveUsername()` function.  
+- **Username format & duplication check:** `usernamePrefix()`, `nextSuffix()`, `normalizeRole()`, `createUser()`.  
+- **API call:** `CheckOutBook(...)` with `userId` in query params.  
+- **Persistence:** `AsyncStorage.getItem("userId")` (prefill on mount) and `setItem` (after success).  
+- **User dump:** `dumpUsers()` on mount and after checkout.  
 
 **Technical notes:**  
-- **Validation:** `userId` obrigatório antes do call; mostrar mensagem clara em caso de falta.  
-- **UX:** teclado fecha ao tocar fora (`TouchableWithoutFeedback`) e com `KeyboardAvoidingView` no iOS.  
-- **Date formatting:** `new Date(dueDate).toLocaleDateString()` para apresentação amigável.  
-- **Persistence:** `AsyncStorage` mantém o último `userId` para acelerar checkouts futuros.  
-- **Error handling:** `try/catch` ou `.catch()` com `Alert` e `console.error` para diagnóstico.
+- **Validation:**  
+  - Mode 1 requires a valid `userId` already in SQLite.  
+  - Mode 2 requires an existing `cc`.  
+  - Mode 3 requires `cc`, `firstName`, and `phone`.  
+- **UX:** keyboard dismiss on outside tap; `KeyboardAvoidingView` for iOS; “chips” UI for switching modes.  
+- **Receipt:** shows `Checkout ID`, `ISBN`, and `Due Date` (`toLocaleDateString()`).  
+- **Integration with book list:** `LibraryBooksScreen` automatically re-fetches data when regaining focus.  
+- **Debug/export:** the database or a JSON dump can be shared via `exportDatabase()` / `exportUsersJson(rows)`.  
+
 
 ---
 
