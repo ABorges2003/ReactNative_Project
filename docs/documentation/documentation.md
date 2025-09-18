@@ -131,7 +131,6 @@
 
 ### Simple Sequence Diagram (SSD)
 ![SSD8](./SSD/UC8-SSD.png)  
-<span style="color:red">⚠️ Note: This SSD is still under development and may not fully represent the latest implementation.</span>
 
 ### Specification Table
 | **Description**       | Check out a book from a selected library to a user |
@@ -143,7 +142,7 @@
 
 ### Sequence Diagram (SD)
 ![SD8](./SD/UC8-SD.png)  
-<span style="color:red">⚠️ Note: This SD is still under development and may not fully represent the latest implementation.</span>
+
 
 
 
