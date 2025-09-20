@@ -82,3 +82,7 @@ You can test the following ISBNs directly in the app:
 ### 🔍 Test with Swagger
 If you want to check more ISBNs, you can test them in Swagger:  
 **book-controller → GET `/v1/book/{isbn}` → loadBook**  
+
+### 🌐 Extra Tip
+If you don’t know which ISBNs to test, you can also generate valid ISBN-13 codes using this website:  
+👉 [ISBN13 Barcode Generator](https://barcode.tec-it.com/en/ISBN13)  
