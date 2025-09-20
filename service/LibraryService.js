@@ -28,6 +28,14 @@ const CheckOutBook = (libraryId, isbn, userId) =>
       params: { userId: userId },
     }
   );
+  const CheckInBook = (libraryId, isbn, userId) =>
+    api.post(
+      `${ENDPOINTS.GET_LIBRARY}/${libraryId}/book/${isbn}/checkin`,
+      null,
+      {
+        params: { userId: userId },
+      }
+    );
 
 
 export {
@@ -40,4 +48,5 @@ export {
   AddNewBook,
   UpdateBook,
   CheckOutBook,
+  CheckInBook,
 };

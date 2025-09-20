@@ -12,6 +12,7 @@ import ScannerScreen from './screens/ScannerScreen';
 import AddBookScreen from './screens/AddBookScreen';
 import UpdateBookScreen from './screens/UpdateBookScreen';
 import CheckOutScreen from './screens/CheckOutScreen';
+import CheckInScreen from './screens/CheckInScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ const App= () => {
         <Stack.Screen name="AddBook" component={AddBookScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="UpdateBook" component={UpdateBookScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="CheckOutMenu" component={CheckOutScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="CheckInMenu" component={CheckInScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

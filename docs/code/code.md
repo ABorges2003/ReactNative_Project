@@ -297,8 +297,42 @@ This section explains how each use case was implemented.
 
 ---
 
-## 🚧 Next Steps
-- Implement UC9 (CheckIn book in the selected library) - try tu use GET "/v1/user/checked-out getCheckedOutBooks" to see the list the user have
+### UC9 — CheckIn Book in Library
+- **Screen:** `CheckInScreen`  
+- **Components used:** `TextInput`, `Button`, `Alert`, `KeyboardAvoidingView`, `TouchableWithoutFeedback`, `ImageBackground`, `AsyncStorage`  
+- **Service:** `CheckInBook(libraryId, isbn, userId)` → `POST /v1/library/{id}/book/{isbn}/checkin?userId={userId}`  
+- **Local store (SQLite):** user lookup only (`findUserByCC`, `findUserByUsername`, `dumpUsers`) — no user creation here.  
+
+**Flow:**  
+1. In `LibraryBooksScreen`, the user taps a book → `BookModal` → **CheckIn Book**.  
+   - The option is only available if `checkedOut > 0`.  
+   - Navigates to `"CheckIn"` with `{ libraryId, book: { isbn, ... } }`.  
+2. In `CheckInScreen`, the user resolves the `username` in two modes:  
+   - **(1) User ID** → validates and looks up an existing `username` (`findUserByUsername`).  
+   - **(2) CC lookup** → validates `cc` and searches for a user (`findUserByCC`).  
+3. Once the `username` is resolved, the system calls `CheckInBook(libraryId, isbn, username)`.  
+   - On success → stores the last used `userId` in `AsyncStorage`.  
+   - Triggers a user dump (`dumpUsers()`) to console for debugging.  
+4. Shows a success `Alert` with confirmation and navigates back to `LibraryBooksScreen`.  
+   - On return, the book list refreshes automatically (`useFocusEffect` in `LibraryBooksScreen`).  
+5. On failure, logs the error and shows an error `Alert`.  
+
+**Key code points (where to look if changes are needed):**  
+- **Navigation:** from `BookModal` option → `navigate("CheckIn", { libraryId, book })`.  
+- **Username resolution:** `resolveUsername()` function in `CheckInScreen`.  
+- **API call:** `CheckInBook(libraryId, book.isbn, username)` with `userId` passed as query param.  
+- **Persistence:** `AsyncStorage.getItem("userId")` (prefill on mount) and `setItem` (after success).  
+- **User dump:** `dumpUsers()` called on mount and after successful check-in.  
+
+**Technical notes:**  
+- **Validation:**  
+  - Mode 1 requires a valid `username` in SQLite.  
+  - Mode 2 requires an existing `cc`.  
+- **UX:** same chip-based mode selector as `CheckOutScreen`; keyboard dismiss on outside tap; `KeyboardAvoidingView` for iOS.  
+- **Consistency with checkout:** both flows share persistence (`AsyncStorage`) and DB debug logging.  
+- **Integration with book list:** `LibraryBooksScreen` re-fetches books when refocused, so availability updates automatically.  
+
+
 
 
 

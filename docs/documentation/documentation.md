@@ -143,7 +143,20 @@
 ### Sequence Diagram (SD)
 ![SD8](./SD/UC8-SD.png)  
 
+---
 
+## UC9 — CheckIn Book in Library
 
+### Simple Sequence Diagram (SSD)
+![SSD9](./SSD/UC9-SSD.png)  
 
+### Specification Table
+| **Description**       | Check in a book previously checked out from a library |
+|------------------------|-------------------------------------------------------|
+| **Pre-condition**      | The system must be connected to the internet/API; the library and book must exist and the book must be currently checked out |
+| **Post-condition**     | The check-in is recorded in the API, the book’s availability is updated, and the last used `userId` is saved locally |
+| **Main flow**          | 1. The user selects a book in `LibraryBooksScreen` <br> 2. The system opens `BookModal` with actions <br> 3. The user taps **CheckIn Book** (only enabled if `checkedOut > 0`) <br> 4. The system navigates to `CheckInScreen` with `libraryId` and `book` <br> 5. The user resolves the check-in identity through one of two modes: <br> &nbsp;&nbsp;• **User ID** → searches by username in SQLite <br> &nbsp;&nbsp;• **CC Lookup** → searches by citizen card in SQLite <br> 6. The user taps **Done** <br> 7. The system calls `POST /v1/library/{id}/book/{isbn}/checkin?userId={userId}` <br> 8. The API confirms success <br> 9. The system stores the last `userId` in `AsyncStorage`, updates the local SQLite dump, shows a success message, and navigates back to `LibraryBooksScreen` <br> 10. On return, the book list refreshes automatically |
+| **Alternative flow**   | Missing/invalid input depending on mode → the system shows a validation error <br> User not found in SQLite → the system shows an error <br> API request fails → the system shows an error message and no changes are made |
 
+### Sequence Diagram (SD)
+![SD9](./SD/UC9-SD.png)  

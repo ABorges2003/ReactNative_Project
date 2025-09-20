@@ -78,7 +78,16 @@ const LibraryBooksScreen = ({ route }) => {
     {
       label: "CheckIn Book",
       onPress: () => {
-        alert("CheckIn feature is in development.");
+        if (selectedBook.checkedOut > 0) {
+          navigation.navigate("CheckInMenu", {
+            book: {
+              isbn: selectedBook.book.isbn,
+            },
+            libraryId: libraryId,
+          });
+        } else {
+          alert("There are no books checked out for this book.");
+        }
       },
     },
   ];
