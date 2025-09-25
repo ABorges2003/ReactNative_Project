@@ -89,4 +89,4 @@ If you don’t know which ISBNs to test, you can also generate valid ISBN-13 cod
 
 ## 🎬 App Demo Video
 Watch the app in action: **[Click to watch the demo](./doc_videoapp/Video_youtube.mp4)**  
-*(Opens the video directly on GitHub.)*
+*(You can dowload and watch the full video of the application.)*
