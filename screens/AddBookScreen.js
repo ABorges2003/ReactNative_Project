@@ -124,7 +124,7 @@ const AddBookScreen = ({ route, navigation }) => {
           onPress={handleAddBook}
           disabled={!isStockValid || !libraryId}
         >
-          <Text style={styles.addButtonText}>Confirmar e Adicionar</Text>
+          <Text style={styles.addButtonText}>Confirm and Add</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
